@@ -1,40 +1,36 @@
-# Shopping Cart Application
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Welcome to the Shopping Cart Application repository. This project showcases a scalable e-commerce solution using microservices architecture with Java Spring Boot for backend services and Next.js with TypeScript for the frontend.
+## Getting Started
 
-## Overview
+First, run the development server:
 
-The Shopping Cart Application utilizes Java Spring Boot microservices to ensure robustness and scalability in handling various aspects of e-commerce operations. It features secure user authentication, intuitive product browsing, efficient order management, and insightful admin functionalities.
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-## Features
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- **User Features:**
-  - Secure authentication and registration.
-  - Browse products and add items to the cart.
-  - View order history and manage account details.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-- **Admin Features:**
-  - Inventory management with intelligent restock notifications.
-  - Generate reports for strategic decision-making.
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Technologies Used
+## Learn More
 
-### Backend
+To learn more about Next.js, take a look at the following resources:
 
-- Java with Spring Boot for microservices architecture.
-- MySQL Database for data persistence.
-- Eureka Server for service discovery.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-### Frontend
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-- Next.js with TypeScript for interactive and responsive UI.
-- React.js for component-based development.
-- Axios for efficient API communication.
+## Deploy on Vercel
 
-### Getting Started
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-1. **Clone the repository:**
-
-   ```bash
-   git clone "https://github.com/Vedant-8/Shopping-cart"
-   ```
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
