@@ -1,4 +1,4 @@
-#Shopping cart application 
+Shopping cart application 
 
 - Admin reports
 - Inventory management 
