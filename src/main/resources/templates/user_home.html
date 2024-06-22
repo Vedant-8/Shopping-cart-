@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Dashboard</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+      }
+      .container {
+        width: 80%;
+        margin: 0 auto;
+      }
+      header {
+        background-color: #333;
+        color: white;
+        padding: 10px 0;
+        text-align: center;
+      }
+      header h1 {
+        margin: 0;
+      }
+      nav {
+        display: flex;
+        justify-content: center;
+        background-color: #444;
+        padding: 10px 0;
+      }
+      nav a {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        font-weight: bold;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+      main {
+        background: white;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      footer {
+        text-align: center;
+        padding: 10px 0;
+        background-color: #333;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Welcome to Your User Dashboard</h1>
+    </header>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/profile">Profile</a>
+      <a href="/user/orders">My Orders</a>
+      <a href="/logout">Logout</a>
+    </nav>
+    <main>
+      <h2>User Dashboard</h2>
+      <p>
+        Welcome to your dashboard! Here you can browse products, manage your
+        profile, and view your orders.
+      </p>
+    </main>
+    <footer>
+      <p>&copy; 2024 Shopping Cart Application. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
