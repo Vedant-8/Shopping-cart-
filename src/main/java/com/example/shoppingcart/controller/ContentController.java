@@ -1,10 +1,7 @@
-package com.example.shoppingcart;
+package com.example.shoppingcart.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
-
-
 
 @Controller
 public class ContentController {
@@ -24,6 +21,9 @@ public class ContentController {
         return "user_home";
     }
     
-    
+    @GetMapping("/login")
+    public String handleLogin() {
+        return "custom_login";
+    }
     
 }
