@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orders</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .orders-container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .orders-container h2 {
+        margin-bottom: 20px;
+      }
+      .order {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+      .order:last-child {
+        border-bottom: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="orders-container">
+      <h2>Orders</h2>
+      <div class="order">
+        <p><strong>Order ID:</strong> 1</p>
+        <p><strong>Product:</strong> Dress</p>
+        <p><strong>Quantity:</strong> 2</p>
+        <p><strong>Total Price:</strong> $80</p>
+      </div>
+      <div class="order">
+        <p><strong>Order ID:</strong> 2</p>
+        <p><strong>Product:</strong> Shoes</p>
+        <p><strong>Quantity:</strong> 1</p>
+        <p><strong>Total Price:</strong> $82</p>
+      </div>
+      <!-- More orders can be added here -->
+    </div>
+  </body>
+</html>
