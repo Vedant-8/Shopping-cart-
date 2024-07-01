@@ -1,0 +1,27 @@
+/* src/App.css */
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+}
+
+.product-list {
+  margin: 20px auto;
+  max-width: 800px;
+  text-align: left;
+}
+
+.product-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.product-item h3 {
+  margin: 0 0 10px 0;
+}

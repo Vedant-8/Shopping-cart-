@@ -35,3 +35,5 @@ build/
 application.properties
 mvnw
 mvnw.cmd
+fashion_products.csv
+filtered_fashion_products.csv
