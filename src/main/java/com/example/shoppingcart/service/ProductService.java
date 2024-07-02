@@ -10,7 +10,6 @@ import com.example.shoppingcart.repository.ProductRepository;
 
 @Service
 public class ProductService {
-
     @Autowired
     private ProductRepository productRepository;
 
@@ -25,5 +24,8 @@ public class ProductService {
     public void delete(Long id) {
         productRepository.deleteById(id);
     }
-    
+
+    public Product findById(Long id) {
+        return productRepository.findById(id).orElse(null);
+    }
 }
