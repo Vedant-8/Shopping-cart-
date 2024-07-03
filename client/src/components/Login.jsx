@@ -1,58 +1,58 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import authService from "../services/authService";
+// Login.js
 
-const Login = () => {
+import React, { useState } from "react";
+import authService from "../services/authService";
+import { TextField, Button, Container, Typography, Alert } from "@mui/material";
+
+const Login = ({ onLogin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const history = useHistory();
+  const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    authService.login(username, password).then(
-      () => {
-        history.push("/profile");
-        window.location.reload();
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        setMessage(resMessage);
-      }
-    );
+    try {
+      const userData = await authService.login(username, password);
+      onLogin(userData); // Handle login success in parent component
+    } catch (error) {
+      setError("Invalid username or password");
+      console.error("Login error:", error);
+    }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <Container maxWidth="sm">
+      <Typography variant="h4" component="h1" gutterBottom>
+        Login
+      </Typography>
       <form onSubmit={handleLogin}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
+        <TextField
+          label="Username"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <TextField
+          label="Password"
+          variant="outlined"
+          type="password"
+          fullWidth
+          margin="normal"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button variant="contained" color="primary" type="submit" fullWidth>
+          Login
+        </Button>
       </form>
-      {message && <div>{message}</div>}
-    </div>
+      {error && (
+        <Alert severity="error" style={{ marginTop: "10px" }}>
+          {error}
+        </Alert>
+      )}
+    </Container>
   );
 };
 

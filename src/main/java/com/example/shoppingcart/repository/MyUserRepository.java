@@ -10,4 +10,6 @@ import com.example.shoppingcart.model.MyUser;
 public interface MyUserRepository extends JpaRepository<MyUser, Long> {
 
     Optional<MyUser> findByUsername(String username);
+
+    boolean existsByUsername(String username);
 }
