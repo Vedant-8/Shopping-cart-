@@ -1,27 +1,17 @@
-/* src/App.css */
-.App {
-  text-align: center;
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: #f4f4f4;
 }
 
-.App-header {
-  background-color: #282c34;
+.container {
   padding: 20px;
+}
+
+header,
+footer {
+  background-color: #333;
   color: white;
-}
-
-.product-list {
-  margin: 20px auto;
-  max-width: 800px;
-  text-align: left;
-}
-
-.product-item {
-  border: 1px solid #ddd;
   padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-}
-
-.product-item h3 {
-  margin: 0 0 10px 0;
+  text-align: center;
 }

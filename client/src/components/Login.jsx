@@ -1,34 +1,30 @@
-// Login.js
-
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import authService from "../services/authService";
-import { TextField, Button, Container, Typography, Alert } from "@mui/material";
+import { Container, TextField, Button, Typography, Box } from "@mui/material";
 
-const Login = ({ onLogin }) => {
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async () => {
     try {
-      const userData = await authService.login(username, password);
-      onLogin(userData); // Handle login success in parent component
+      await authService.login(username, password);
+      navigate("/user-dashboard");
     } catch (error) {
-      setError("Invalid username or password");
-      console.error("Login error:", error);
+      console.error("Login failed:", error);
     }
   };
 
   return (
     <Container maxWidth="sm">
-      <Typography variant="h4" component="h1" gutterBottom>
-        Login
-      </Typography>
-      <form onSubmit={handleLogin}>
+      <Box mt={5}>
+        <Typography variant="h4" gutterBottom>
+          Login
+        </Typography>
         <TextField
           label="Username"
-          variant="outlined"
           fullWidth
           margin="normal"
           value={username}
@@ -36,22 +32,22 @@ const Login = ({ onLogin }) => {
         />
         <TextField
           label="Password"
-          variant="outlined"
           type="password"
           fullWidth
           margin="normal"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button variant="contained" color="primary" type="submit" fullWidth>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={handleLogin}
+          style={{ marginTop: "20px" }}
+        >
           Login
         </Button>
-      </form>
-      {error && (
-        <Alert severity="error" style={{ marginTop: "10px" }}>
-          {error}
-        </Alert>
-      )}
+      </Box>
     </Container>
   );
 };

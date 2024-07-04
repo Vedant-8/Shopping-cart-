@@ -1,3 +1,4 @@
+// src/services/webSocketService.js
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 
@@ -28,9 +29,14 @@ class WebSocketService {
   onMessageReceived = (message) => {
     const salesMessage = message.body;
     console.log("Sales Message: " + salesMessage);
-    // Implement logic to handle the received sales message
-    // For example, you can update the state of a React component
+    if (this.messageHandler) {
+      this.messageHandler(salesMessage);
+    }
   };
+
+  setMessageHandler(handler) {
+    this.messageHandler = handler;
+  }
 }
 
 export default new WebSocketService();
