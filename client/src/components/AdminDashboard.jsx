@@ -34,7 +34,7 @@ const AdminDashboard = () => {
               <TableCell>Description</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          {/* <TableBody>
             {reports.map((report) => (
               <TableRow key={report.id}>
                 <TableCell>{report.id}</TableCell>
@@ -42,7 +42,7 @@ const AdminDashboard = () => {
                 <TableCell>{report.description}</TableCell>
               </TableRow>
             ))}
-          </TableBody>
+          </TableBody> */}
         </Table>
       </Paper>
     </Container>

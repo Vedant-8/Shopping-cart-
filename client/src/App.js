@@ -36,26 +36,8 @@ const App = () => {
         <Route exact path="/" element={<HomePage />} />
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register />} />
-        <Route
-          path="/user"
-          element={
-            isAuthenticated && authService.getRole() === "USER" ? (
-              <UserDashboard />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        <Route
-          path="/admin"
-          element={
-            isAuthenticated && authService.getRole() === "ADMIN" ? (
-              <AdminDashboard />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
+        <Route path="/user/home" element={<UserDashboard />} />
+        <Route path="/admin/home" element={<AdminDashboard />} />
         <Route path="/products" element={<ProductList />} />
         <Route
           path="/profile"
