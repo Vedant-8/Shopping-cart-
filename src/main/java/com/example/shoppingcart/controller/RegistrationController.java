@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.shoppingcart.model.MyUser;
@@ -12,6 +13,7 @@ import com.example.shoppingcart.repository.MyUserRepository;
 
 @RestController
 @CrossOrigin
+@RequestMapping("/api/auth")
 public class RegistrationController {
 
     @Autowired
@@ -19,7 +21,7 @@ public class RegistrationController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @PostMapping("/register/user")
+    @PostMapping("/register")
     public MyUser createUser(@RequestBody MyUser user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return myUserRepository.save(user);
