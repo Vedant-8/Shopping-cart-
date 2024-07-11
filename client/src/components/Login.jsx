@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { TextField, Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import authService from "../services/authService";
 
@@ -11,36 +12,49 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const token = await authService.login(username, password);
-      localStorage.setItem("token", token);
-      const userRole = authService.getRole(); // Check the role here
-      console.log("User role:", userRole);
-      navigate("/user/home"); // Redirect to user dashboard or appropriate page
+      const response = await authService.login(username, password);
+      const role = response.role;
+      console.log("User role:", role); // For debugging purposes
+      if (role === "ROLE_ADMIN") {
+        navigate("/admin/home");
+      } else if (role === "ROLE_USER") {
+        navigate("/user/home");
+      } else {
+        navigate("/login");
+        setError("Invalid role. Please try again.");
+      }
     } catch (error) {
       setError("Invalid credentials. Please try again.");
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        Login
+      </Typography>
       <form onSubmit={handleLogin}>
-        <input
-          type="text"
-          placeholder="Username"
+        <TextField
+          label="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          fullWidth
+          margin="normal"
         />
-        <input
+        <TextField
+          label="Password"
           type="password"
-          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          fullWidth
+          margin="normal"
         />
-        <button type="submit">Login</button>
+        <Button variant="contained" color="primary" type="submit">
+          Login
+        </Button>
       </form>
-      {error && <p>{error}</p>}
-    </div>
+      {error && <Typography color="error">{error}</Typography>}
+    </Container>
   );
 };
 

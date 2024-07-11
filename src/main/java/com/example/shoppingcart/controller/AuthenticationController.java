@@ -1,9 +1,13 @@
 package com.example.shoppingcart.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,12 +34,19 @@ public class AuthenticationController {
     private MyUserDetailService myUserDetailService;
 
     @PostMapping("/login")
-    public String authenticateAndGetToken(@RequestBody LoginForm loginForm) {
+    public Map<String, String> authenticateAndGetToken(@RequestBody LoginForm loginForm) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginForm.username(), loginForm.password())
         );
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(myUserDetailService.loadUserByUsername(loginForm.username()));
+            UserDetails userDetails = myUserDetailService.loadUserByUsername(loginForm.username());
+            String token = jwtService.generateToken(userDetails);
+            String role = userDetails.getAuthorities().iterator().next().getAuthority();
+
+            Map<String, String> response = new HashMap<>();
+            response.put("token", token);
+            response.put("role", role);
+            return response;
         } else {
             throw new UsernameNotFoundException("Invalid credentials");
         }

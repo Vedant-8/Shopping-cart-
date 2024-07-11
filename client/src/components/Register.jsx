@@ -16,7 +16,7 @@ const Register = () => {
   const navigate = useNavigate(); // Initialize useNavigate
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("USER");
+  const [role, setRole] = useState("");
 
   const handleRegister = async () => {
     try {
@@ -51,7 +51,7 @@ const Register = () => {
         <InputLabel>Role</InputLabel>
         <Select value={role} onChange={(e) => setRole(e.target.value)}>
           <MenuItem value="USER">User</MenuItem>
-          <MenuItem value="ADMIN">Admin</MenuItem>
+          <MenuItem value="ADMIN,USER">Admin</MenuItem>
         </Select>
       </FormControl>
       <Button variant="contained" color="primary" onClick={handleRegister}>

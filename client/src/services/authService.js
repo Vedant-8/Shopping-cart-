@@ -2,8 +2,13 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080/api/auth";
 
-const login = (username, password) => {
-  return axios.post(`${API_URL}/login`, { username, password });
+const login = async (username, password) => {
+  const response = await axios.post(`${API_URL}/login`, { username, password });
+  if (response.data.token) {
+    localStorage.setItem("token", response.data.token);
+    localStorage.setItem("role", response.data.role); // Store the role in localStorage
+  }
+  return response.data;
 };
 
 const register = (username, password, role) => {
@@ -19,6 +24,7 @@ const getProfile = () => {
 
 const logout = () => {
   localStorage.removeItem("token");
+  localStorage.removeItem("role"); // Remove role from localStorage on logout
 };
 
 const isAuthenticated = () => {
@@ -26,8 +32,7 @@ const isAuthenticated = () => {
 };
 
 const getRole = () => {
-  // Placeholder for role retrieval logic
-  return "USER";
+  return localStorage.getItem("role"); // Retrieve the role from localStorage
 };
 
 export default {
