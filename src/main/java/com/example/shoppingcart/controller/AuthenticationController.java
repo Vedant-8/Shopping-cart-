@@ -16,7 +16,7 @@ import com.example.shoppingcart.jwt.LoginForm;
 import com.example.shoppingcart.service.MyUserDetailService;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/auth")
 public class AuthenticationController {
 

@@ -1,8 +1,8 @@
-import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
+import { Client } from "@stomp/stompjs";
 
 class WebSocketService {
-  constructor(messageHandler) {
+  constructor(onMessageReceived) {
     this.sock = new SockJS("http://localhost:8080/ws");
     this.stompClient = new Client({
       webSocketFactory: () => this.sock,
@@ -14,7 +14,9 @@ class WebSocketService {
 
     this.stompClient.onConnect = (frame) => {
       console.log("Connected: " + frame);
-      this.stompClient.subscribe("/topic/sales", this.onMessageReceived);
+      this.stompClient.subscribe("/topic/sales", (message) => {
+        onMessageReceived(message.body);
+      });
     };
 
     this.stompClient.onStompError = (frame) => {
@@ -23,19 +25,10 @@ class WebSocketService {
     };
 
     this.stompClient.activate();
-    this.messageHandler = messageHandler;
   }
 
-  onMessageReceived = (message) => {
-    const salesMessage = message.body;
-    console.log("Sales Message: " + salesMessage);
-    if (this.messageHandler) {
-      this.messageHandler(salesMessage);
-    }
-  };
-
   disconnect() {
-    if (this.stompClient) {
+    if (this.stompClient && this.stompClient.connected) {
       this.stompClient.deactivate();
     }
   }

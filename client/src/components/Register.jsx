@@ -9,9 +9,11 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import authService from "../services/authService";
 
-const Register = ({ onRegister }) => {
+const Register = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("USER");
@@ -19,7 +21,7 @@ const Register = ({ onRegister }) => {
   const handleRegister = async () => {
     try {
       await authService.register(username, password, role);
-      onRegister();
+      navigate("/login"); // Redirect to login page after successful registration
     } catch (error) {
       console.error(error);
     }

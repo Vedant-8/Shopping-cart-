@@ -1,15 +1,18 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import authService from "../services/authService";
 
 const NavBar = ({ onLogout }) => {
+  const navigate = useNavigate(); // Using useNavigate hook from react-router-dom
   const isAuthenticated = authService.isAuthenticated();
   const userRole = authService.getRole();
 
   const handleLogout = () => {
-    authService.logout();
-    onLogout();
+    localStorage.removeItem("token"); // Remove the authentication token from local storage
+    navigate("/login"); // Navigate to the login page
+    authService.logout(); // Call the logout function from your authService
+    onLogout(); // Call any additional logout logic passed as a prop
   };
 
   return (

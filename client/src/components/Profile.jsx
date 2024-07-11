@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Typography,
-  Container,
-  Paper,
-  List,
-  ListItem,
-  ListItemText,
-} from "@mui/material";
+import { Container, Typography } from "@mui/material";
 import authService from "../services/authService";
 
 const Profile = () => {
@@ -25,13 +18,8 @@ const Profile = () => {
       <Typography variant="h4" gutterBottom>
         Profile
       </Typography>
-      <Paper>
-        <List>
-          <ListItem>
-            <ListItemText primary="Username" secondary={profile.username} />
-          </ListItem>
-        </List>
-      </Paper>
+      <Typography variant="h6">Username: {profile.username}</Typography>
+      <Typography variant="h6">Role: {profile.role}</Typography>
     </Container>
   );
 };

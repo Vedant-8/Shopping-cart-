@@ -7,7 +7,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import authService from "../services/authService";
-import WebSocketService from "../services/webSocketService";
+import WebSocketService from "../services/webSocketService"; // Correct import
 
 const UserDashboard = () => {
   const [messages, setMessages] = useState([]);
@@ -25,7 +25,7 @@ const UserDashboard = () => {
     return () => {
       webSocketService.disconnect();
     };
-  }, []);
+  }, []); // Empty dependency array because we want this effect to run once
 
   if (!profile) return null;
 

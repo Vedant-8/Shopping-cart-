@@ -26,8 +26,8 @@ const isAuthenticated = () => {
 };
 
 const getRole = () => {
-  // Decode token to get the role, this is a placeholder
-  return "USER"; // Replace with actual decoding logic
+  // Placeholder for role retrieval logic
+  return "USER";
 };
 
 export default {

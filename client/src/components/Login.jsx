@@ -1,72 +1,46 @@
 import React, { useState } from "react";
-import { TextField, Button, Container, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import authService from "../services/authService";
-import { Navigate } from "react-router-dom"; // Make sure to import Navigate
 
-const Login = ({ onLogin }) => {
+const Login = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loginError, setLoginError] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
-      const response = await authService.login(username, password);
-      localStorage.setItem("token", response.data.token);
-      onLogin();
+      const token = await authService.login(username, password);
+      localStorage.setItem("token", token);
+      const userRole = authService.getRole(); // Check the role here
+      console.log("User role:", userRole);
+      navigate("/user/home"); // Redirect to user dashboard or appropriate page
     } catch (error) {
-      console.error(error);
-      setLoginError(true);
-      return;
+      setError("Invalid credentials. Please try again.");
     }
   };
-
-  // Redirect logic based on role after successful login
-  const redirectToDashboard = () => {
-    const role = authService.getRole();
-    switch (role) {
-      case "ADMIN":
-        return <Navigate to="/admin" />;
-      case "USER":
-        return <Navigate to="/user" />;
-      default:
-        return null;
-    }
-  };
-
-  // Check if authenticated and redirect accordingly
-  if (authService.isAuthenticated()) {
-    return redirectToDashboard();
-  }
 
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
-        Login
-      </Typography>
-      <TextField
-        label="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        fullWidth
-        margin="normal"
-      />
-      <TextField
-        label="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        fullWidth
-        margin="normal"
-      />
-      {loginError && (
-        <Typography variant="body2" color="error">
-          Invalid username or password.
-        </Typography>
-      )}
-      <Button variant="contained" color="primary" onClick={handleLogin}>
-        Login
-      </Button>
-    </Container>
+    <div>
+      <h2>Login</h2>
+      <form onSubmit={handleLogin}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit">Login</button>
+      </form>
+      {error && <p>{error}</p>}
+    </div>
   );
 };
 
