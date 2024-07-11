@@ -1,26 +1,69 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import NavBar from "./components/NavBar";
+import HomePage from "./components/HomePage";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import HomePage from "./components/HomePage";
 import UserDashboard from "./components/UserDashboard";
 import AdminDashboard from "./components/AdminDashboard";
-import NavBar from "./components/NavBar";
-import "./App.css";
+import ProductList from "./components/ProductList";
+import Profile from "./components/Profile";
+import authService from "./services/authService";
 
-function App() {
+const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    authService.isAuthenticated()
+  );
+
+  const handleLogin = () => {
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    Navigate("/");
+  };
+
   return (
     <Router>
-      <NavBar />
+      <NavBar onLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<Login />} />
+        <Route exact path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/user-dashboard" element={<UserDashboard />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route
+          path="/user"
+          element={
+            isAuthenticated && authService.getRole() === "USER" ? (
+              <UserDashboard />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            isAuthenticated && authService.getRole() === "ADMIN" ? (
+              <AdminDashboard />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route path="/products" element={<ProductList />} />
+        <Route
+          path="/profile"
+          element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}
+        />
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;

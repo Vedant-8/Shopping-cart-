@@ -1,65 +1,50 @@
-// src/components/UserDashboard.js
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  Typography,
-  Box,
   Container,
-  Card,
-  CardContent,
-  Avatar,
-  Grid,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
-import webSocketService from "../services/webSocketService";
+import authService from "../services/authService";
+import WebSocketService from "../services/webSocketService";
 
 const UserDashboard = () => {
   const [messages, setMessages] = useState([]);
-  const [profile, setProfile] = useState({ username: "User", role: "USER" });
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    // Fetch profile information from the server
-    // This is just a placeholder. Replace with actual API call
-    // Example: fetchProfile().then(data => setProfile(data));
-    setProfile({ username: "John Doe", role: "USER" });
+    authService.getProfile().then((data) => {
+      setProfile(data);
+    });
 
-    // Set the message handler for WebSocket messages
-    webSocketService.setMessageHandler((message) => {
+    const webSocketService = new WebSocketService((message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
+
+    return () => {
+      webSocketService.disconnect();
+    };
   }, []);
+
+  if (!profile) return null;
 
   return (
     <Container>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mb: 4 }}>
-        <Box>
-          <Typography variant="h4">Dashboard</Typography>
-        </Box>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Avatar>{profile.username.charAt(0)}</Avatar>
-          <Box sx={{ ml: 2 }}>
-            <Typography variant="h6">{profile.username}</Typography>
-            <Typography variant="body2" color="textSecondary">
-              {profile.role}
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
-
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={8}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6">Sales Messages</Typography>
-              {messages.length === 0 ? (
-                <Typography>No messages yet.</Typography>
-              ) : (
-                messages.map((msg, index) => (
-                  <Typography key={index}>{msg}</Typography>
-                ))
-              )}
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+      <Typography variant="h4" gutterBottom>
+        User Dashboard
+      </Typography>
+      <Typography variant="h6">Welcome, {profile.username}</Typography>
+      <Typography variant="h5" gutterBottom>
+        Real-time Messages
+      </Typography>
+      <List>
+        {messages.map((msg, index) => (
+          <ListItem key={index}>
+            <ListItemText primary={msg} />
+          </ListItem>
+        ))}
+      </List>
     </Container>
   );
 };
