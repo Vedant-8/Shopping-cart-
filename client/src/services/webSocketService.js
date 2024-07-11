@@ -1,9 +1,8 @@
-// src/services/webSocketService.js
 import { Client } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 
 class WebSocketService {
-  constructor() {
+  constructor(messageHandler) {
     this.sock = new SockJS("http://localhost:8080/ws");
     this.stompClient = new Client({
       webSocketFactory: () => this.sock,
@@ -24,6 +23,7 @@ class WebSocketService {
     };
 
     this.stompClient.activate();
+    this.messageHandler = messageHandler;
   }
 
   onMessageReceived = (message) => {
@@ -34,9 +34,11 @@ class WebSocketService {
     }
   };
 
-  setMessageHandler(handler) {
-    this.messageHandler = handler;
+  disconnect() {
+    if (this.stompClient) {
+      this.stompClient.deactivate();
+    }
   }
 }
 
-export default new WebSocketService();
+export default WebSocketService;
