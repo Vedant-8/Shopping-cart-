@@ -1,28 +1,42 @@
-import React, { useState, useEffect } from "react";
-import { Container, Typography, Box } from "@mui/material";
+import React, { useState } from "react";
+import { TextField, Button, Container, Typography } from "@mui/material";
 import reportService from "../services/reportService";
 
-const Report = () => {
-  const [reportData, setReportData] = useState([]);
+const Report = ({ onReport }) => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
-  useEffect(() => {
-    const fetchReportData = async () => {
-      const result = await reportService.getReport();
-      setReportData(result.data);
-    };
-    fetchReportData();
-  }, []);
+  const handleReport = async () => {
+    try {
+      await reportService.createReport(title, description);
+      onReport();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
-    <Container maxWidth="md">
-      <Box mt={5}>
-        <Typography variant="h4" gutterBottom>
-          Report
-        </Typography>
-        <Typography variant="body1">
-          {JSON.stringify(reportData, null, 2)}
-        </Typography>
-      </Box>
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        Create Report
+      </Typography>
+      <TextField
+        label="Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        fullWidth
+        margin="normal"
+      />
+      <TextField
+        label="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        fullWidth
+        margin="normal"
+      />
+      <Button variant="contained" color="primary" onClick={handleReport}>
+        Create Report
+      </Button>
     </Container>
   );
 };

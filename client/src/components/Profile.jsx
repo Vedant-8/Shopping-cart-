@@ -1,25 +1,38 @@
-import React from "react";
-import { Container, Typography, Box, Paper } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import {
+  Typography,
+  Container,
+  Paper,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
+import authService from "../services/authService";
 
 const Profile = () => {
-  // Mock data, replace with actual user data
-  const user = {
-    username: "john_doe",
-    role: "USER",
-  };
+  const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    authService.getProfile().then((data) => {
+      setProfile(data);
+    });
+  }, []);
+
+  if (!profile) return null;
 
   return (
-    <Paper style={{ padding: 20, marginTop: 20 }}>
-      <Typography variant="h5" gutterBottom>
+    <Container>
+      <Typography variant="h4" gutterBottom>
         Profile
       </Typography>
-      <Typography variant="body1">
-        <strong>Username:</strong> {user.username}
-      </Typography>
-      <Typography variant="body1">
-        <strong>Role:</strong> {user.role}
-      </Typography>
-    </Paper>
+      <Paper>
+        <List>
+          <ListItem>
+            <ListItemText primary="Username" secondary={profile.username} />
+          </ListItem>
+        </List>
+      </Paper>
+    </Container>
   );
 };
 
