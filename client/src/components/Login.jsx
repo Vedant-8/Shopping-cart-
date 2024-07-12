@@ -3,7 +3,7 @@ import { TextField, Button, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import authService from "../services/authService";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -16,11 +16,12 @@ const Login = () => {
       const role = response.role;
       console.log("User role:", role); // For debugging purposes
       if (role === "ROLE_ADMIN") {
+        onLogin(); // Call onLogin to update authentication state
         navigate("/admin/home");
       } else if (role === "ROLE_USER") {
+        onLogin(); // Call onLogin to update authentication state
         navigate("/user/home");
       } else {
-        navigate("/login");
         setError("Invalid role. Please try again.");
       }
     } catch (error) {
