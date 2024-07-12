@@ -20,7 +20,25 @@ public class Product {
     private double price;
 
     @Column(nullable = false)
+    private String brand;
+
+    @Column(nullable = false)
+    private String category;
+
+    @Column(nullable = false)
+    private String size;
+
+    @Column(nullable = false)
+    private double rating;
+
+    @Column(nullable = false)
     private int stock;
+
+    @Column(nullable = false)
+    private String image;
+
+    // Getters and Setters for all fields (omitted for brevity)
+    // Remember to generate these using your IDE or manually
 
     public Long getId() {
         return id;
@@ -46,6 +64,38 @@ public class Product {
         this.price = price;
     }
 
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
     public int getStock() {
         return stock;
     }
@@ -54,5 +104,11 @@ public class Product {
         this.stock = stock;
     }
 
+    public String getImage() {
+        return image;
+    }
 
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

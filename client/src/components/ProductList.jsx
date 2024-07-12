@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Grid, Typography } from "@mui/material";
 import ProductItem from "./ProductItem";
 
 function ProductList() {
@@ -23,10 +24,14 @@ function ProductList() {
 
   return (
     <div className="product-list">
-      <h2>Products</h2>
-      {products.map((product) => (
-        <ProductItem key={product.id} product={product} />
-      ))}
+      <Typography variant="h2" gutterBottom>
+        Products
+      </Typography>
+      <Grid container spacing={2}>
+        {products.map((product) => (
+          <ProductItem key={product.id} product={product} />
+        ))}
+      </Grid>
     </div>
   );
 }
