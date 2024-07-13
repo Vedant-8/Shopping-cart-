@@ -45,9 +45,14 @@ const NavBar = ({ onLogout }) => {
           </Button>
         )}
         {isAuthenticated && (
-          <Button color="inherit" onClick={handleLogout}>
-            Logout
-          </Button>
+          <>
+            <Button color="inherit" onClick={handleLogout}>
+              Logout
+            </Button>
+            <Button color="inherit" component={Link} to="/cart">
+              Cart
+            </Button>
+          </>
         )}
       </Toolbar>
     </AppBar>

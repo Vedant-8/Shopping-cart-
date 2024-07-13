@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Grid, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import ProductItem from "./ProductItem";
+import { useNavigate } from "react-router-dom";
 
-function ProductList() {
+function ProductList({ isAuthenticated }) {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   const APIURL = "http://localhost:8080/api/products";
 
@@ -24,12 +26,14 @@ function ProductList() {
 
   return (
     <div className="product-list">
-      <Typography variant="h2" gutterBottom>
-        Products
-      </Typography>
+      <h2>Products</h2>
       <Grid container spacing={2}>
         {products.map((product) => (
-          <ProductItem key={product.id} product={product} />
+          <ProductItem
+            key={product.id}
+            product={product}
+            isAuthenticated={isAuthenticated} // Pass isAuthenticated prop
+          />
         ))}
       </Grid>
     </div>

@@ -14,6 +14,8 @@ import AdminDashboard from "./components/AdminDashboard";
 import ProductList from "./components/ProductList";
 import Profile from "./components/Profile";
 import authService from "./services/authService";
+import ProductDetails from "./components/ProductDetails";
+import Cart from "./components/Cart";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -41,7 +43,6 @@ const App = () => {
 
   const checkRole = (requiredRole) => {
     const userRole = authService.getRole();
-    console.log("Current user role:", userRole, "Required role:", requiredRole);
     return userRole === requiredRole;
   };
 
@@ -76,11 +77,16 @@ const App = () => {
             )
           }
         />
-        <Route path="/products" element={<ProductList />} />
+        <Route
+          path="/products"
+          element={<ProductList isAuthenticated={isAuthenticated} />}
+        />
         <Route
           path="/profile"
           element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}
         />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </Router>
   );

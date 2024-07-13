@@ -1,22 +1,28 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Button,
-  Grid,
-} from "@mui/material";
-import productService from "../services/productService";
+import axios from "axios";
+import { Card, CardContent, Typography, Button, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import dummyImage from "../images/dummy.jpg"; // Import your dummy image
 
-const ProductItem = ({ product, onAddToCart }) => {
+const ProductItem = ({ product, isAuthenticated }) => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
+  const handleProductClick = () => {
+    navigate(`/product/${product.id}`); // Navigate to product detail page using product ID
+  };
+
   const handleAddToCart = async () => {
+    if (!isAuthenticated) {
+      alert("Please log in to add products to the cart.");
+      return;
+    }
     try {
-      await productService.addToCart(product.id);
-      onAddToCart();
+      await axios.post(`http://localhost:8080/api/cart/add`, {
+        productId: product.id,
+      });
+      alert("Product added to cart");
     } catch (error) {
-      console.error(error);
+      console.error("Error adding product to cart:", error);
     }
   };
 
@@ -42,13 +48,14 @@ const ProductItem = ({ product, onAddToCart }) => {
           src={dummyImage}
           alt={product.name}
           style={{
-            objectFit: "scale-down",
+            objectFit: "contain",
             height: 150,
-            justifyContent: "center",
-            alignItems: "center",
+            width: "100%", // Ensure full width
+            cursor: "pointer",
             borderTopLeftRadius: 8,
             borderTopRightRadius: 8,
           }}
+          onClick={handleProductClick}
         />
         <CardContent>
           <Typography variant="h6" gutterBottom>
