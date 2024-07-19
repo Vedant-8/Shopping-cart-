@@ -4,7 +4,7 @@
 
 A shopping cart application
 
-## Features
+## Features -
 
 - Secure user authentication and authorization
 - Admin dashboard for product management, messaging and reporting
