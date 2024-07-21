@@ -49,7 +49,7 @@ public class SecurityConfiguration {
                 .build();
     }
 
-    // @Bean  --> This was for in memory user service 
+    // @Bean  --> This was for in memory user service currently working with db
     // public UserDetailsService userDetailsService() {
     //     UserDetails normalUser = User.builder()
     //             .username("user")
