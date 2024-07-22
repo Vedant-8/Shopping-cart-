@@ -62,8 +62,6 @@ const Cart = () => {
       return;
     }
 
-    // Implement checkout logic here
-    // Example: Call cartService to initiate checkout process
     try {
       // await cartService.checkout();
       alert("Checkout successful!");
