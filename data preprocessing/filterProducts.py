@@ -16,6 +16,7 @@ filtered_df = filtered_df.rename(columns={
 
 filtered_df['stock'] = 50
 
+# load dummy images for reference 
 default_image_path = 'dummy.jpg'
 filtered_df['image'] = default_image_path
 
