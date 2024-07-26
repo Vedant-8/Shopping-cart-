@@ -47,7 +47,6 @@ public class CartController {
         return ResponseEntity.noContent().build();
     }
 
-    // POST /api/cart/checkout
     @PostMapping("/checkout")
     public ResponseEntity<Void> checkout() {
         cartService.checkout();
