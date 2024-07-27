@@ -20,9 +20,7 @@ public class ProfileController {
 
     @GetMapping("/profile")
     public MyUser getProfile(@AuthenticationPrincipal MyUser currentUser) {
-        // Load user details using MyUserDetailService
         MyUser user = (MyUser) myUserDetailService.loadUserByUsername(currentUser.getUsername());
-        // Return the user profile information
         return user;
     }
 }

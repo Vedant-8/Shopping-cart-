@@ -37,9 +37,6 @@ public class Product {
     @Column(nullable = false)
     private String image;
 
-    // Getters and Setters for all fields (omitted for brevity)
-    // Remember to generate these using your IDE or manually
-
     public Long getId() {
         return id;
     }
