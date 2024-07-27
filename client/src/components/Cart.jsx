@@ -1,141 +1,160 @@
 import React, { useState, useEffect } from "react";
 import {
+  Container,
   Typography,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemSecondaryAction,
-  IconButton,
   Button,
   Grid,
   Card,
   CardContent,
-  CardMedia,
 } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { useNavigate } from "react-router-dom";
-import authService from "../services/authService";
 import cartService from "../services/cartService";
+import dummyImage from "../images/dummy.jpg"; // Import your dummy image
 import emptyCartImage from "../images/empty-cart.png";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const [cart, setCart] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [cart, setCart] = useState(null);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const isAuthenticated = authService.isAuthenticated();
+
+  const fetchCart = async () => {
+    try {
+      const cartData = await cartService.getCart();
+      if (cartData && cartData.products) {
+        setCart(cartData);
+      } else {
+        console.log("Cart data is missing or products is not an array");
+        setCart({ products: [] }); // Handle empty cart scenario
+      }
+    } catch (err) {
+      console.error("Error fetching cart:", err);
+      setError("Failed to fetch cart. Please try again.");
+    }
+  };
 
   useEffect(() => {
     fetchCart();
   }, []);
 
-  const fetchCart = async () => {
-    try {
-      const cartData = await cartService.getCart();
-      setCart(cartData.products || []);
-      calculateTotalPrice(cartData.products || []);
-    } catch (error) {
-      console.error("Error fetching cart:", error);
-    }
-  };
-
-  const calculateTotalPrice = (products) => {
-    let total = 0;
-    products.forEach((product) => {
-      total += product.price;
-    });
-    setTotalPrice(total);
-  };
-
   const handleRemoveFromCart = async (productId) => {
     try {
       await cartService.removeFromCart(productId);
-      fetchCart(); // Refresh cart after deletion
-    } catch (error) {
-      console.error("Error removing product from cart:", error);
+      fetchCart(); // Refresh cart after removal
+    } catch (err) {
+      console.error("Error removing product from cart:", err);
+      setError("Failed to remove product from cart.");
     }
   };
 
-  const handleCheckout = async () => {
-    if (!isAuthenticated) {
-      alert("Please log in to checkout.");
-      navigate("/login");
-      return;
-    }
-
-    try {
-      // await cartService.checkout();
-      alert("Checkout successful!");
-      setCart([]);
-      setTotalPrice(0);
-    } catch (error) {
-      console.error("Error during checkout:", error);
-    }
+  const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`); // Navigate to product detail page using product ID
   };
 
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={12}>
-        <Typography variant="h4" gutterBottom>
-          Your Cart
-        </Typography>
-      </Grid>
-      <Grid item xs={12}>
-        {cart.length === 0 ? (
-          <Card sx={{ padding: 2 }}>
+    <Container
+      style={{
+        minHeight: "100vh",
+        width: "100%",
+        background: "linear-gradient(to bottom, #ffffff 0%, #a3c2e1 100%)",
+        padding: "20px",
+        boxSizing: "border-box",
+        color: "#003366", // Dark blue for text color
+      }}
+    >
+      <Typography variant="h4" gutterBottom>
+        Your Cart
+      </Typography>
+      {error && <Typography color="error">{error}</Typography>}
+      {cart ? (
+        cart.products && cart.products.length > 0 ? (
+          <Grid container spacing={2}>
+            {cart.products.map((product) => (
+              <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
+                <Card
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
+                    borderRadius: 8,
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+                    backgroundColor: "rgba(255, 255, 255, 0.7)",
+                    transition: "transform 0.2s ease-in-out",
+                    "&:hover": {
+                      transform: "scale(1.05)",
+                      backgroundColor: "rgba(255, 255, 255, 0.9)",
+                    },
+                    minWidth: 250,
+                    margin: "auto",
+                  }}
+                >
+                  <img
+                    src={dummyImage}
+                    alt={product.name}
+                    style={{
+                      objectFit: "contain",
+                      height: 150,
+                      width: "100%",
+                      cursor: "pointer",
+                      borderTopLeftRadius: 8,
+                      borderTopRightRadius: 8,
+                    }}
+                    onClick={() => handleProductClick(product.id)}
+                  />
+                  <CardContent>
+                    <Typography variant="h6" gutterBottom>
+                      {product.name}
+                    </Typography>
+                    <Typography variant="subtitle1" color="textSecondary">
+                      {product.brand}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Size: {product.size}
+                    </Typography>
+                    <Typography variant="body1" gutterBottom>
+                      Rating: {product.rating.toFixed(1)}
+                    </Typography>
+                    <Typography variant="body1">
+                      Price: ${product.price}
+                    </Typography>
+                  </CardContent>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    onClick={() => handleRemoveFromCart(product.id)}
+                    sx={{ borderRadius: 0 }}
+                  >
+                    Remove from Cart
+                  </Button>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        ) : (
+          <div style={{ textAlign: "center" }}>
             <img
               src={emptyCartImage}
               alt="Empty Cart"
-              style={{
-                objectFit: "contain",
-                height: 150,
-                width: "100%", // Ensure full width
-                cursor: "pointer",
-                borderTopLeftRadius: 8,
-                borderTopRightRadius: 8,
-              }}
+              style={{ width: "200px", height: "auto" }}
             />
-            <CardContent>
-              <Typography variant="body1" align="center">
-                Your cart is empty.
-              </Typography>
-            </CardContent>
-          </Card>
-        ) : (
-          <List>
-            {cart.map((product) => (
-              <ListItem key={product.id}>
-                <ListItemText
-                  primary={product.name}
-                  secondary={`$${product.price}`}
-                />
-                <ListItemSecondaryAction>
-                  <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    onClick={() => handleRemoveFromCart(product.id)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </ListItemSecondaryAction>
-              </ListItem>
-            ))}
-            <ListItem>
-              <ListItemText primary="Total" />
-              <Typography variant="subtitle1">${totalPrice}</Typography>
-            </ListItem>
-            <ListItem>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleCheckout}
-              >
-                Checkout
-              </Button>
-            </ListItem>
-          </List>
-        )}
-      </Grid>
-    </Grid>
+            <Typography variant="h6" color="#003366">
+              Your cart is empty
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => navigate("/products")}
+              sx={{ marginTop: 2 }}
+            >
+              Continue Shopping
+            </Button>
+          </div>
+        )
+      ) : (
+        <Typography>Loading...</Typography>
+      )}
+    </Container>
   );
 };
 

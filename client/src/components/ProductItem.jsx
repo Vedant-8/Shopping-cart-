@@ -2,13 +2,14 @@ import React from "react";
 import axios from "axios";
 import { Card, CardContent, Typography, Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import dummyImage from "../images/dummy.jpg"; // Import your dummy image
+import dummyImage from "../images/dummy.jpg";
+import StarRatings from "react-star-ratings"; // Import the StarRatings component
 
-const ProductItem = ({ product, isAuthenticated }) => {
-  const navigate = useNavigate(); // Initialize useNavigate hook
+const ProductItem = ({ isAuthenticated, product }) => {
+  const navigate = useNavigate();
 
   const handleProductClick = () => {
-    navigate(`/product/${product.id}`); // Navigate to product detail page using product ID
+    navigate(`/product/${product.id}`);
   };
 
   const handleAddToCart = async () => {
@@ -17,9 +18,15 @@ const ProductItem = ({ product, isAuthenticated }) => {
       return;
     }
     try {
-      await axios.post(`http://localhost:8080/api/cart/add`, {
-        productId: product.id,
-      });
+      await axios.post(
+        "http://localhost:8080/api/cart",
+        { productId: product.id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       alert("Product added to cart");
     } catch (error) {
       console.error("Error adding product to cart:", error);
@@ -35,13 +42,16 @@ const ProductItem = ({ product, isAuthenticated }) => {
           flexDirection: "column",
           justifyContent: "space-between",
           borderRadius: 8,
-          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-          transition: "transform 0.2s ease-in-out",
+          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+          backgroundColor: "rgba(255, 255, 255, 0.7)", // Transparent background
+          transition: "transform 0.3s ease-in-out, background-color 0.3s ease",
           "&:hover": {
             transform: "scale(1.05)",
+            backgroundColor: "rgba(255, 255, 255, 0.9)",
           },
-          minWidth: 250, // Adjusted minimum width
-          margin: "auto", // Center align within Grid item
+          minWidth: 240, // Slightly increased minimum width
+          maxWidth: 320, // Slightly increased maximum width
+          margin: "auto",
         }}
       >
         <img
@@ -49,8 +59,8 @@ const ProductItem = ({ product, isAuthenticated }) => {
           alt={product.name}
           style={{
             objectFit: "contain",
-            height: 150,
-            width: "100%", // Ensure full width
+            height: 180, // Adjusted height to better fit the card
+            width: "100%",
             cursor: "pointer",
             borderTopLeftRadius: 8,
             borderTopRightRadius: 8,
@@ -59,18 +69,22 @@ const ProductItem = ({ product, isAuthenticated }) => {
         />
         <CardContent>
           <Typography variant="h6" gutterBottom>
-            {product.name}
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            {product.brand}
+            {product.brand} {product.name}
           </Typography>
           <Typography variant="body1" gutterBottom>
             Size: {product.size}
           </Typography>
+          <StarRatings
+            rating={product.rating}
+            starRatedColor="blue"
+            numberOfStars={5}
+            starDimension="20px"
+            starSpacing="2px"
+            name="rating"
+          />
           <Typography variant="body1" gutterBottom>
-            Rating: {product.rating.toFixed(1)}
+            Price: ${product.price}
           </Typography>
-          <Typography variant="body1">Price: ${product.price}</Typography>
         </CardContent>
         <Button
           variant="contained"

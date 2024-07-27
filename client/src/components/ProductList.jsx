@@ -7,14 +7,12 @@ import { useNavigate } from "react-router-dom";
 function ProductList({ isAuthenticated }) {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
-
   const APIURL = "http://localhost:8080/api/products";
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get(APIURL);
-        console.log(response); // Optional: Log the response for debugging
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -22,17 +20,31 @@ function ProductList({ isAuthenticated }) {
     };
 
     fetchProducts();
-  }, []); // Empty dependency array ensures useEffect runs only once on component mount
+  }, []);
 
   return (
-    <div className="product-list">
-      <h2>Products</h2>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(to bottom, #ffffff 0%, #a3c2e1 100%)",
+        padding: "20px",
+        backgroundAttachment: "fixed", // Ensures the gradient stays fixed during scroll
+      }}
+    >
+      <h2
+        style={{
+          textAlign: "center",
+          color: "#00274d", // Match the homepage header color
+        }}
+      >
+        Products
+      </h2>
       <Grid container spacing={2}>
         {products.map((product) => (
           <ProductItem
             key={product.id}
             product={product}
-            isAuthenticated={isAuthenticated} // Pass isAuthenticated prop
+            isAuthenticated={isAuthenticated}
           />
         ))}
       </Grid>

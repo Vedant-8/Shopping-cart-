@@ -9,8 +9,10 @@ import {
   Card,
   CardContent,
   CardMedia,
+  Box,
 } from "@mui/material";
-import dummyImage from "../images/dummy.jpg";
+import StarRatings from "react-star-ratings";
+import dummyImage from "../images/dummy.jpg"; // Update with actual image path
 
 const ProductDetails = ({ isAuthenticated }) => {
   const { id } = useParams();
@@ -37,7 +39,15 @@ const ProductDetails = ({ isAuthenticated }) => {
       return;
     }
     try {
-      await axios.post(`http://localhost:8080/api/cart`, { productId: id });
+      await axios.post(
+        "http://localhost:8080/api/cart",
+        { productId: product.id },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       alert("Product added to cart");
     } catch (error) {
       console.error("Error adding product to cart:", error);
@@ -47,47 +57,81 @@ const ProductDetails = ({ isAuthenticated }) => {
   if (!product) return <div>Loading...</div>;
 
   return (
-    <Container>
-      <Card sx={{ display: "flex", marginTop: 2 }}>
-        <img
-          src={dummyImage}
+    <div
+      style={{
+        position: "relative",
+        width: "100vw",
+        height: "100vh",
+        background: "linear-gradient(to bottom, #ffffff 0%, #a3c2e1 100%)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+        padding: 0,
+        margin: 0,
+      }}
+    >
+      <Card
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          borderRadius: 8,
+          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+          backgroundColor: "rgba(255, 255, 255, 0.9)", // Slightly more opaque
+          maxWidth: 1200,
+          width: "90%", // Adjust for responsiveness
+          padding: 2,
+        }}
+      >
+        <CardMedia
+          component="img"
+          image={dummyImage} // Replace with product image URL
           alt={product.name}
-          style={{
-            objectFit: "scale-down",
-            height: 150,
-            justifyContent: "center",
-            alignItems: "center",
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
+          sx={{
+            objectFit: "contain",
+            height: "auto",
+            maxWidth: 400,
+            borderRadius: 8,
+            marginRight: 2,
           }}
         />
         <CardContent sx={{ flex: 1 }}>
-          <Typography component="h2" variant="h5">
+          <Typography component="h2" variant="h4" gutterBottom>
             {product.name}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
             {product.brand}
           </Typography>
           <Typography variant="body1" gutterBottom>
-            Size: {product.size}
+            <strong>Size:</strong> {product.size}
           </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <StarRatings
+              rating={product.rating}
+              starRatedColor="blue"
+              numberOfStars={5}
+              starDimension="20px"
+              starSpacing="2px"
+              name="rating"
+            />
+            <Typography variant="body1" sx={{ ml: 1 }}>
+              {product.rating.toFixed(1)}
+            </Typography>
+          </Box>
           <Typography variant="body1" gutterBottom>
-            Rating: {product.rating.toFixed(1)}
-          </Typography>
-          <Typography variant="body1" gutterBottom>
-            Price: ${product.price}
+            <strong>Price:</strong> ${product.price}
           </Typography>
           <Button
             variant="contained"
             color="primary"
             onClick={handleAddToCart}
-            sx={{ marginTop: 2 }}
+            sx={{ marginTop: 2, borderRadius: 0 }}
           >
             Add to Cart
           </Button>
         </CardContent>
       </Card>
-    </Container>
+    </div>
   );
 };
 

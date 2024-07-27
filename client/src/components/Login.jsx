@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Button, Container, Typography } from "@mui/material";
+import { TextField, Button, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import authService from "../services/authService";
 
@@ -30,32 +30,76 @@ const Login = ({ onLogin }) => {
   };
 
   return (
-    <Container>
-      <Typography variant="h4" gutterBottom>
-        Login
-      </Typography>
-      <form onSubmit={handleLogin}>
-        <TextField
-          label="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <Button variant="contained" color="primary" type="submit">
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: "linear-gradient(to bottom, #ffffff 0%, #a3c2e1 100%)", // Smooth gradient from white to light blue
+        margin: 0,
+      }}
+    >
+      <Box
+        sx={{
+          background: "rgba(255, 255, 255, 0.9)", // Slightly transparent white background
+          borderRadius: 4,
+          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+          padding: 4,
+          maxWidth: 400,
+          width: "100%",
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
+          "&:hover": {
+            transform: "scale(1.02)", // Slight zoom effect on hover
+            boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", // Enhanced shadow on hover
+          },
+        }}
+      >
+        <Typography variant="h4" gutterBottom sx={{ mb: 2, color: "#00274d" }}>
           Login
-        </Button>
-      </form>
-      {error && <Typography color="error">{error}</Typography>}
-    </Container>
+        </Typography>
+        <form onSubmit={handleLogin}>
+          <TextField
+            label="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            fullWidth
+            margin="normal"
+            variant="outlined"
+          />
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            margin="normal"
+            variant="outlined"
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            fullWidth
+            sx={{
+              mt: 2,
+              background: "#007bff",
+              "&:hover": {
+                background: "#0056b3",
+              },
+              transition: "background 0.3s ease",
+            }}
+          >
+            Login
+          </Button>
+        </form>
+        {error && (
+          <Typography color="error" sx={{ mt: 2 }}>
+            {error}
+          </Typography>
+        )}
+      </Box>
+    </Box>
   );
 };
 

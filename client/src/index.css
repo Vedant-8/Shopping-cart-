@@ -1,8 +1,10 @@
+/* index.css or global styles file */
+html,
 body {
-  font-family: "Roboto", sans-serif;
+  height: 100%;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  background: linear-gradient(to bottom, #ffffff 0%, #a3c2e1 100%);
 }
 
 #root {
