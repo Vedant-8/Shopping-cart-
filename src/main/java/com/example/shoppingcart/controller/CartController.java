@@ -19,13 +19,13 @@ import com.example.shoppingcart.service.CartService;
 
 @RestController
 @RequestMapping("/api/cart")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class CartController {
 
     @Autowired
     private CartService cartService;
 
-     @PostMapping
+    @PostMapping
     public ResponseEntity<Cart> addToCart(@RequestBody Map<String, Long> payload, Principal principal) {
         String username = principal.getName();
         Long productId = payload.get("productId");
@@ -48,8 +48,9 @@ public class CartController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<Void> checkout() {
-        cartService.checkout();
+    public ResponseEntity<Void> checkout(Principal principal) {
+        String username = principal.getName();
+        cartService.checkout(username);
         return ResponseEntity.ok().build();
     }
 }

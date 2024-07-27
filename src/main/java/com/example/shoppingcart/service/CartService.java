@@ -1,7 +1,5 @@
 package com.example.shoppingcart.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,28 +23,36 @@ public class CartService {
     private MyUserRepository myUserRepository;
 
     public Cart addToCart(String username, Long productId) {
-        Optional<MyUser> user = myUserRepository.findByUsername(username);
-        Cart cart = cartRepository.findByUser(user.orElse(null));
+        MyUser user = myUserRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
+        Cart cart = cartRepository.findByUser(user);
         if (cart == null) {
             cart = new Cart();
-            cart.setUser(user.orElse(null));
+            cart.setUser(user);
         }
 
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
-        cart.getProducts().add(product);
-        return cartRepository.save(cart);
+
+        if (!cart.getProducts().contains(product)) {
+            cart.getProducts().add(product);
+            cartRepository.save(cart);
+        }
+
+        return cart;
     }
 
     public Cart getCartByUser(String username) {
-        Optional<MyUser> user = myUserRepository.findByUsername(username);
-        return cartRepository.findByUser(user.orElse(null));
+        MyUser user = myUserRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return cartRepository.findByUser(user);
     }
 
     public void removeFromCart(String username, Long productId) {
-        Optional<MyUser> user = myUserRepository.findByUsername(username);
-        Cart cart = cartRepository.findByUser(user.orElse(null));
+        MyUser user = myUserRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Cart cart = cartRepository.findByUser(user);
 
         if (cart != null) {
             cart.getProducts().removeIf(product -> product.getId().equals(productId));
@@ -54,16 +60,11 @@ public class CartService {
         }
     }
 
-    // Additional methods like checkout can be added here
+    public void checkout(String username) {
+        MyUser user = myUserRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Cart cart = cartRepository.findByUser(user);
 
-    public void checkout() {
-        // Assume user is authenticated and you have access to username
-        String username = "username"; // Replace with actual authenticated user's username or retrieve dynamically
-        Optional<MyUser> user = myUserRepository.findByUsername(username);
-        Cart cart = cartRepository.findByUser(user.orElseThrow(() -> new RuntimeException("User not found")));
-
-        // Implement checkout logic here, e.g., process payment, update inventory, etc.
-        // For demonstration, clearing the cart
         cart.getProducts().clear();
         cartRepository.save(cart);
     }
