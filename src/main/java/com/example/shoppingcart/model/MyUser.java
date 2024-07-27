@@ -22,6 +22,15 @@ public class MyUser {
     @Column(nullable = false)
     private String role;
 
+    @Column(nullable = false)
+    private String email;
+
+    @Column
+    private String name;
+
+    @Column
+    private String number;
+
     public Long getId() {
         return id;
     }
@@ -54,5 +63,28 @@ public class MyUser {
         this.role = role;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
 
 }

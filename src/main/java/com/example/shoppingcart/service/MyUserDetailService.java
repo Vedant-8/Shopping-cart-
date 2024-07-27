@@ -21,27 +21,37 @@ public class MyUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<MyUser> user = repository.findByUsername(username);
-        if(user.isPresent()){
-            var userObj = user.get();
+        if (user.isPresent()) {
+            MyUser userObj = user.get();
             return User.builder()
                 .username(userObj.getUsername())
                 .password(userObj.getPassword())
                 .roles(getRoles(userObj))
                 .build();
         } else {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException("User not found with username: " + username);
         }
-
-        
     }
 
-    private String[] getRoles(MyUser user){
-        if(user.getRole()==null){
+    private String[] getRoles(MyUser user) {
+        if (user.getRole() == null) {
             return new String[]{"USER"};
         }
         return user.getRole().split(",");
     }
 
-    
+    public MyUser updateUserProfile(MyUser updatedUser) {
+        MyUser user = repository.findById(updatedUser.getId())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
+        user.setEmail(updatedUser.getEmail());
+        user.setUsername(updatedUser.getUsername());
+        user.setNumber(updatedUser.getNumber());
+        return repository.save(user);
+    }
+
+    public MyUser getUserByUsername(String username) {
+        return repository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+    }
 }
