@@ -43,6 +43,18 @@ const getProfile = async () => {
   }
 };
 
+const updateProfile = async (profileData) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.put(`${API_URL}/profile`, profileData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error("Updating profile failed. Please try again.");
+  }
+};
+
 const logout = () => {
   localStorage.removeItem("token");
   localStorage.removeItem("role");
@@ -54,7 +66,7 @@ const isAuthenticated = () => {
 };
 
 const getRole = () => {
-  const role = localStorage.getItem("role"); 
+  const role = localStorage.getItem("role");
   return role;
 };
 
@@ -62,6 +74,7 @@ export default {
   login,
   register,
   getProfile,
+  updateProfile,
   logout,
   isAuthenticated,
   getRole,

@@ -19,12 +19,12 @@ const NavBar = ({ onLogout }) => {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "#f9faff", 
-        boxShadow: "none", 
+        backgroundColor: "#f9faff",
+        boxShadow: "none",
         padding: "0 20px",
-        transition: "background-color 0.3s ease", 
+        transition: "background-color 0.3s ease",
         "&:hover": {
-          backgroundColor: "#e6f2ff", 
+          backgroundColor: "#e6f2ff",
         },
       }}
     >
@@ -53,21 +53,6 @@ const NavBar = ({ onLogout }) => {
         <Button
           color="inherit"
           component={Link}
-          to="/"
-          sx={{
-            color: "#003366",
-            transition: "color 0.3s ease, transform 0.3s ease",
-            "&:hover": {
-              color: "#0056b3", 
-              transform: "scale(1.05)", 
-            },
-          }}
-        >
-          Home
-        </Button>
-        <Button
-          color="inherit"
-          component={Link}
           to="/products"
           sx={{
             color: "#003366",
@@ -80,11 +65,11 @@ const NavBar = ({ onLogout }) => {
         >
           Products
         </Button>
-        {isAuthenticated && userRole === "ADMIN" && (
+        {isAuthenticated && userRole === "ROLE_ADMIN" && (
           <Button
             color="inherit"
             component={Link}
-            to="/admin"
+            to="/admin/home"
             sx={{
               color: "#003366",
               transition: "color 0.3s ease, transform 0.3s ease",
@@ -94,14 +79,14 @@ const NavBar = ({ onLogout }) => {
               },
             }}
           >
-            Admin
+            HOME
           </Button>
         )}
-        {isAuthenticated && userRole === "USER" && (
+        {isAuthenticated && userRole === "ROLE_USER" && (
           <Button
             color="inherit"
             component={Link}
-            to="/user"
+            to="/user/home"
             sx={{
               color: "#003366",
               transition: "color 0.3s ease, transform 0.3s ease",
@@ -111,7 +96,7 @@ const NavBar = ({ onLogout }) => {
               },
             }}
           >
-            Dashboard
+            HOME
           </Button>
         )}
         {!isAuthenticated && (

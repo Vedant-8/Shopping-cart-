@@ -11,18 +11,55 @@ import {
   Box,
   Card,
   CardContent,
+  Button,
+  TextField,
+  Avatar,
 } from "@mui/material";
-import reportService from "../services/reportService";
 import { Star } from "@mui/icons-material";
+import reportService from "../services/reportService";
+import authService from "../services/authService"; 
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
 
 const AdminDashboard = () => {
   const [reports, setReports] = useState([]);
+  const [profile, setProfile] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedProfile, setEditedProfile] = useState({});
 
   useEffect(() => {
+    // Fetch reports data
     reportService.getReports().then((data) => {
       setReports(data);
     });
+
+    // Fetch admin profile data
+    authService.getProfile().then((data) => {
+      setProfile(data);
+      setEditedProfile(data);
+    });
   }, []);
+
+  const handleEditToggle = () => {
+    setIsEditing((prev) => !prev);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedProfile((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSaveProfile = async () => {
+    try {
+      await authService.updateProfile(editedProfile); 
+      setProfile(editedProfile);
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+
+  if (!profile) return null;
 
   return (
     <div
@@ -34,59 +71,96 @@ const AdminDashboard = () => {
       }}
     >
       <Container>
-        <Box
+        <Card
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            marginBottom: 4,
-            backgroundColor: "rgba(255, 255, 255, 0.8)",
             borderRadius: 8,
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
             padding: 2,
+            width: "100%",
+            marginBottom: 4,
             boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <Typography variant="h4" gutterBottom>
-            Admin Dashboard
-          </Typography>
-          <Card
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              borderRadius: 8,
-              backgroundColor: "rgba(255, 255, 255, 0.8)",
-              padding: 2,
-              width: "100%",
-              maxWidth: 800,
-            }}
-          >
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                Admin Profile
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                Name: John Doe
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                Role: Admin
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                Email: admin@example.com
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginTop: 2,
-                }}
-              >
-                <Star sx={{ color: "gold", marginRight: 1 }} />
-                <Typography variant="body1">Admin Level: 5</Typography>
+          <CardContent>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <Avatar
+                alt={profile?.username}
+                src={profile?.profileImage || ""}
+                sx={{ width: 100, height: 100 }}
+              />
+              <Box>
+                {isEditing ? (
+                  <>
+                    <TextField
+                      label="Username"
+                      name="username"
+                      value={editedProfile.username}
+                      onChange={handleInputChange}
+                      fullWidth
+                      margin="normal"
+                    />
+                    <TextField
+                      label="Email"
+                      name="email"
+                      value={editedProfile.email}
+                      onChange={handleInputChange}
+                      fullWidth
+                      margin="normal"
+                    />
+                    <TextField
+                      label="Phone Number"
+                      name="number"
+                      value={editedProfile.number}
+                      onChange={handleInputChange}
+                      fullWidth
+                      margin="normal"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Typography variant="h5" gutterBottom sx={{ color: "#00274d" }}>
+                      {profile.username}
+                    </Typography>
+                    <Typography variant="h6" sx={{ color: "#003366" }}>
+                      {profile.email}
+                    </Typography>
+                    <Typography variant="body1" sx={{ color: "#003366" }}>
+                      Phone Number: {profile.number}
+                    </Typography>
+                    <Box sx={{ display: "flex", alignItems: "center", marginTop: 2 }}>
+                      <Star sx={{ color: "gold", marginRight: 1 }} />
+                      <Typography variant="body1">Admin Level: {profile.adminLevel}</Typography>
+                    </Box>
+                  </>
+                )}
+                <Box sx={{ display: "flex", gap: 2, marginTop: 2 }}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={isEditing ? <SaveIcon /> : <EditIcon />}
+                    onClick={isEditing ? handleSaveProfile : handleEditToggle}
+                    sx={{ borderRadius: 0 }}
+                  >
+                    {isEditing ? "Save" : "Edit Profile"}
+                  </Button>
+                  {isEditing && (
+                    <Button
+                      variant="outlined"
+                      color="secondary"
+                      onClick={handleEditToggle}
+                      sx={{ borderRadius: 0 }}
+                    >
+                      Cancel
+                    </Button>
+                  )}
+                </Box>
               </Box>
-            </CardContent>
-          </Card>
-        </Box>
+            </Box>
+          </CardContent>
+        </Card>
 
         <Paper
           sx={{

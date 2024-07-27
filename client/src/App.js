@@ -12,7 +12,6 @@ import Register from "./components/Register";
 import UserDashboard from "./components/UserDashboard";
 import AdminDashboard from "./components/AdminDashboard";
 import ProductList from "./components/ProductList";
-import Profile from "./components/Profile";
 import authService from "./services/authService";
 import ProductDetails from "./components/ProductDetails";
 import Cart from "./components/Cart";
@@ -80,10 +79,6 @@ const App = () => {
         <Route
           path="/products"
           element={<ProductList isAuthenticated={isAuthenticated} />}
-        />
-        <Route
-          path="/profile"
-          element={isAuthenticated ? <Profile /> : <Navigate to="/login" />}
         />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />

@@ -8,10 +8,16 @@ import {
   Paper,
   Box,
   Fade,
+  Button,
+  TextField,
+  IconButton,
+  Avatar,
 } from "@mui/material";
 import authService from "../services/authService";
 import WebSocketService from "../services/webSocketService";
 import { styled } from "@mui/material/styles";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
 
 const Notification = styled(Paper)(({ theme }) => ({
   position: "fixed",
@@ -22,7 +28,7 @@ const Notification = styled(Paper)(({ theme }) => ({
   boxShadow: theme.shadows[3],
   borderRadius: 8,
   backgroundColor: "rgba(255, 255, 255, 0.8)",
-  zIndex: 1300, 
+  zIndex: 1300,
   transition: "opacity 0.5s ease-in-out",
 }));
 
@@ -30,22 +36,44 @@ const UserDashboard = () => {
   const [messages, setMessages] = useState([]);
   const [profile, setProfile] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedProfile, setEditedProfile] = useState({});
 
   useEffect(() => {
     authService.getProfile().then((data) => {
       setProfile(data);
+      setEditedProfile(data);
     });
 
     const webSocketService = new WebSocketService((message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
       setShowNotification(true);
-      setTimeout(() => setShowNotification(false), 5000); // Hide notification after 5 seconds
+      setTimeout(() => setShowNotification(false), 5000);
     });
 
     return () => {
       webSocketService.disconnect();
     };
   }, []);
+
+  const handleEditToggle = () => {
+    setIsEditing((prev) => !prev);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditedProfile((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSaveProfile = async () => {
+    try {
+      await authService.updateProfile(editedProfile);
+      setProfile(editedProfile);
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
 
   if (!profile) return null;
 
@@ -72,25 +100,78 @@ const UserDashboard = () => {
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <img
+          <Avatar
             alt={profile?.username}
-            style={{
+            src={profile?.profileImage || ""}
+            sx={{
               width: 100,
               height: 100,
-              borderRadius: "50%",
-              objectFit: "cover",
+              cursor: isEditing ? "pointer" : "default",
             }}
+            onClick={isEditing ? () => {} : undefined}
           />
           <Box>
-            <Typography variant="h4" gutterBottom sx={{ color: "#00274d" }}>
-              {profile.username}
-            </Typography>
-            <Typography variant="h6" sx={{ color: "#003366" }}>
-              {profile.email}
-            </Typography>
-            <Typography variant="body1" sx={{ color: "#003366" }}>
-              Joined: {new Date(profile.joinedDate).toLocaleDateString()}
-            </Typography>
+            {isEditing ? (
+              <>
+                <TextField
+                  label="Username"
+                  name="username"
+                  value={editedProfile.username}
+                  onChange={handleInputChange}
+                  fullWidth
+                  margin="normal"
+                />
+                <TextField
+                  label="Email"
+                  name="email"
+                  value={editedProfile.email}
+                  onChange={handleInputChange}
+                  fullWidth
+                  margin="normal"
+                />
+                <TextField
+                  label="Phone Number"
+                  name="number"
+                  value={editedProfile.number}
+                  onChange={handleInputChange}
+                  fullWidth
+                  margin="normal"
+                />
+              </>
+            ) : (
+              <>
+                <Typography variant="h4" gutterBottom sx={{ color: "#00274d" }}>
+                  {profile.username}
+                </Typography>
+                <Typography variant="h6" sx={{ color: "#003366" }}>
+                  {profile.email}
+                </Typography>
+                <Typography variant="body1" sx={{ color: "#003366" }}>
+                  Phone Number: {profile.number}
+                </Typography>
+              </>
+            )}
+            <Box sx={{ display: "flex", gap: 2, marginTop: 2 }}>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={isEditing ? <SaveIcon /> : <EditIcon />}
+                onClick={isEditing ? handleSaveProfile : handleEditToggle}
+                sx={{ borderRadius: 0 }}
+              >
+                {isEditing ? "Save" : "Edit Profile"}
+              </Button>
+              {isEditing && (
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  onClick={handleEditToggle}
+                  sx={{ borderRadius: 0 }}
+                >
+                  Cancel
+                </Button>
+              )}
+            </Box>
           </Box>
         </Box>
         <Typography variant="h5" gutterBottom sx={{ color: "#00274d" }}>
