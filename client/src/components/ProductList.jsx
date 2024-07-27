@@ -28,13 +28,13 @@ function ProductList({ isAuthenticated }) {
         minHeight: "100vh",
         background: "linear-gradient(to bottom, #ffffff 0%, #a3c2e1 100%)",
         padding: "20px",
-        backgroundAttachment: "fixed", // Ensures the gradient stays fixed during scroll
+        backgroundAttachment: "fixed", 
       }}
     >
       <h2
         style={{
           textAlign: "center",
-          color: "#00274d", // Match the homepage header color
+          color: "#00274d",
         }}
       >
         Products

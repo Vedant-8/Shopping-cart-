@@ -22,7 +22,7 @@ const Notification = styled(Paper)(({ theme }) => ({
   boxShadow: theme.shadows[3],
   borderRadius: 8,
   backgroundColor: "rgba(255, 255, 255, 0.8)",
-  zIndex: 1300, // Ensure it appears above other elements
+  zIndex: 1300, 
   transition: "opacity 0.5s ease-in-out",
 }));
 

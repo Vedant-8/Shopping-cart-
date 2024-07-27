@@ -19,12 +19,12 @@ const NavBar = ({ onLogout }) => {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "#f9faff", // Very light blue, almost white
-        boxShadow: "none", // Remove box shadow for a cleaner look
+        backgroundColor: "#f9faff", 
+        boxShadow: "none", 
         padding: "0 20px",
-        transition: "background-color 0.3s ease", // Smooth transition for background color
+        transition: "background-color 0.3s ease", 
         "&:hover": {
-          backgroundColor: "#e6f2ff", // Slightly more saturated light blue on hover
+          backgroundColor: "#e6f2ff", 
         },
       }}
     >
@@ -58,8 +58,8 @@ const NavBar = ({ onLogout }) => {
             color: "#003366",
             transition: "color 0.3s ease, transform 0.3s ease",
             "&:hover": {
-              color: "#0056b3", // Darker blue on hover
-              transform: "scale(1.05)", // Slightly enlarge link on hover
+              color: "#0056b3", 
+              transform: "scale(1.05)", 
             },
           }}
         >

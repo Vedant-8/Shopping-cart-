@@ -14,12 +14,12 @@ const Login = ({ onLogin }) => {
     try {
       const response = await authService.login(username, password);
       const role = response.role;
-      console.log("User role:", role); // For debugging purposes
+      console.log("User role:", role); 
       if (role === "ROLE_ADMIN") {
-        onLogin(); // Call onLogin to update authentication state
+        onLogin(); 
         navigate("/admin/home");
       } else if (role === "ROLE_USER") {
-        onLogin(); // Call onLogin to update authentication state
+        onLogin(); 
         navigate("/user/home");
       } else {
         setError("Invalid role. Please try again.");
@@ -36,13 +36,13 @@ const Login = ({ onLogin }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        background: "linear-gradient(to bottom, #ffffff 0%, #a3c2e1 100%)", // Smooth gradient from white to light blue
+        background: "linear-gradient(to bottom, #ffffff 0%, #a3c2e1 100%)", 
         margin: 0,
       }}
     >
       <Box
         sx={{
-          background: "rgba(255, 255, 255, 0.9)", // Slightly transparent white background
+          background: "rgba(255, 255, 255, 0.9)", 
           borderRadius: 4,
           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
           padding: 4,
@@ -50,8 +50,8 @@ const Login = ({ onLogin }) => {
           width: "100%",
           transition: "transform 0.3s ease, box-shadow 0.3s ease",
           "&:hover": {
-            transform: "scale(1.02)", // Slight zoom effect on hover
-            boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", // Enhanced shadow on hover
+            transform: "scale(1.02)", 
+            boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", 
           },
         }}
       >

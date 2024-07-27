@@ -21,7 +21,7 @@ const Register = () => {
   const handleRegister = async () => {
     try {
       await authService.register(username, password, role);
-      navigate("/login"); // Redirect to login page after successful registration
+      navigate("/login"); 
     } catch (error) {
       console.error(error);
     }
@@ -34,14 +34,14 @@ const Register = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        background: "linear-gradient(to bottom, #ffffff 0%, #a3c2e1 100%)", // Smooth gradient background
+        background: "linear-gradient(to bottom, #ffffff 0%, #a3c2e1 100%)", 
         margin: 0,
         padding: 0,
       }}
     >
       <Box
         sx={{
-          background: "rgba(255, 255, 255, 0.9)", // Slightly transparent white background
+          background: "rgba(255, 255, 255, 0.9)", 
           borderRadius: 4,
           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
           padding: 4,
@@ -49,8 +49,8 @@ const Register = () => {
           width: "100%",
           transition: "transform 0.3s ease, box-shadow 0.3s ease",
           "&:hover": {
-            transform: "scale(1.02)", // Slight zoom effect on hover
-            boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)", // Enhanced shadow on hover
+            transform: "scale(1.02)", 
+            boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
           },
         }}
       >

@@ -8,12 +8,10 @@ const PrivateRoute = ({ element: Element, roles, ...rest }) => {
     return <Navigate to="/login" replace />;
   }
 
-  // Check if route is restricted by role
   if (roles && roles.indexOf(currentUser.role) === -1) {
     return <Navigate to="/forbidden" replace />;
   }
 
-  // Authorized, render component
   return <Route {...rest} element={<Element />} />;
 };
 

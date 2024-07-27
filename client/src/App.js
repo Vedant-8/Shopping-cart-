@@ -20,14 +20,14 @@ import Cart from "./components/Cart";
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [role, setRole] = useState(null);
-  const [loading, setLoading] = useState(true); // Adding a loading state
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const authStatus = authService.isAuthenticated();
     const userRole = authService.getRole();
     setIsAuthenticated(authStatus);
     setRole(userRole);
-    setLoading(false); // Set loading to false after checking auth status
+    setLoading(false); 
   }, []);
 
   const handleLogin = () => {

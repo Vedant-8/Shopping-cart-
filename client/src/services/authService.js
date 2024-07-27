@@ -10,7 +10,7 @@ const login = async (username, password) => {
     });
     if (response.data.token) {
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("role", response.data.role); // Store the role in localStorage
+      localStorage.setItem("role", response.data.role);
     }
     return response.data;
   } catch (error) {
@@ -45,7 +45,7 @@ const getProfile = async () => {
 
 const logout = () => {
   localStorage.removeItem("token");
-  localStorage.removeItem("role"); // Remove role from localStorage on logout
+  localStorage.removeItem("role");
 };
 
 const isAuthenticated = () => {
@@ -54,7 +54,7 @@ const isAuthenticated = () => {
 };
 
 const getRole = () => {
-  const role = localStorage.getItem("role"); // Retrieve the role from localStorag
+  const role = localStorage.getItem("role"); 
   return role;
 };
 

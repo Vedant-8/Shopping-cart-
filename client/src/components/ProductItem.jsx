@@ -3,7 +3,7 @@ import axios from "axios";
 import { Card, CardContent, Typography, Button, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import dummyImage from "../images/dummy.jpg";
-import StarRatings from "react-star-ratings"; // Import the StarRatings component
+import StarRatings from "react-star-ratings"; 
 
 const ProductItem = ({ isAuthenticated, product }) => {
   const navigate = useNavigate();
@@ -43,14 +43,14 @@ const ProductItem = ({ isAuthenticated, product }) => {
           justifyContent: "space-between",
           borderRadius: 8,
           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-          backgroundColor: "rgba(255, 255, 255, 0.7)", // Transparent background
+          backgroundColor: "rgba(255, 255, 255, 0.7)", 
           transition: "transform 0.3s ease-in-out, background-color 0.3s ease",
           "&:hover": {
             transform: "scale(1.05)",
             backgroundColor: "rgba(255, 255, 255, 0.9)",
           },
-          minWidth: 240, // Slightly increased minimum width
-          maxWidth: 320, // Slightly increased maximum width
+          minWidth: 240,
+          maxWidth: 320, 
           margin: "auto",
         }}
       >
@@ -59,7 +59,7 @@ const ProductItem = ({ isAuthenticated, product }) => {
           alt={product.name}
           style={{
             objectFit: "contain",
-            height: 180, // Adjusted height to better fit the card
+            height: 180, 
             width: "100%",
             cursor: "pointer",
             borderTopLeftRadius: 8,

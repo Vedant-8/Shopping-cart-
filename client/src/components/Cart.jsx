@@ -8,7 +8,7 @@ import {
   CardContent,
 } from "@mui/material";
 import cartService from "../services/cartService";
-import dummyImage from "../images/dummy.jpg"; // Import your dummy image
+import dummyImage from "../images/dummy.jpg";
 import emptyCartImage from "../images/empty-cart.png";
 import { useNavigate } from "react-router-dom";
 
@@ -24,7 +24,7 @@ const Cart = () => {
         setCart(cartData);
       } else {
         console.log("Cart data is missing or products is not an array");
-        setCart({ products: [] }); // Handle empty cart scenario
+        setCart({ products: [] });
       }
     } catch (err) {
       console.error("Error fetching cart:", err);
@@ -39,7 +39,7 @@ const Cart = () => {
   const handleRemoveFromCart = async (productId) => {
     try {
       await cartService.removeFromCart(productId);
-      fetchCart(); // Refresh cart after removal
+      fetchCart();
     } catch (err) {
       console.error("Error removing product from cart:", err);
       setError("Failed to remove product from cart.");
@@ -47,7 +47,7 @@ const Cart = () => {
   };
 
   const handleProductClick = (productId) => {
-    navigate(`/product/${productId}`); // Navigate to product detail page using product ID
+    navigate(`/product/${productId}`);
   };
 
   return (
@@ -58,7 +58,7 @@ const Cart = () => {
         background: "linear-gradient(to bottom, #ffffff 0%, #a3c2e1 100%)",
         padding: "20px",
         boxSizing: "border-box",
-        color: "#003366", // Dark blue for text color
+        color: "#003366",
       }}
     >
       <Typography variant="h4" gutterBottom>

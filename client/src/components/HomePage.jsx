@@ -17,7 +17,7 @@ const HomePage = () => {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        background: "linear-gradient(to bottom, #ffffff 0%, #a3c2e1 100%)", // Smooth gradient from white to light blue
+        background: "linear-gradient(to bottom, #ffffff 0%, #a3c2e1 100%)",
         padding: 0,
         margin: 0,
       }}
@@ -26,7 +26,7 @@ const HomePage = () => {
         sx={{
           textAlign: "center",
           padding: 4,
-          maxWidth: "sm", // Adjust width as needed
+          maxWidth: "sm", 
         }}
       >
         <Typography
@@ -60,20 +60,20 @@ const HomePage = () => {
           position: "fixed",
           bottom: 0,
           width: "100%",
-          backgroundColor: "rgba(255, 255, 255, 0.3)", // Almost transparent background
-          color: "#00274d", // Text color
+          backgroundColor: "rgba(255, 255, 255, 0.3)",
+          color: "#00274d", 
           textAlign: "center",
           padding: 2,
           boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.1)",
-          transition: "background-color 0.3s ease", // Smooth transition for background color
+          transition: "background-color 0.3s ease", 
           "&:hover": {
-            backgroundColor: "rgba(255, 255, 255, 0.5)", // Slightly less transparent on hover
+            backgroundColor: "rgba(255, 255, 255, 0.5)", 
           },
         }}
       >
         <Typography
-          variant="body1" // Use a larger variant for bigger text
-          sx={{ fontSize: "1.2rem", fontWeight: "bold" }} // Adjust size as needed
+          variant="body1" 
+          sx={{ fontSize: "1.2rem", fontWeight: "bold" }}
         >
           Made by Vedant Kulkarni
         </Typography>
