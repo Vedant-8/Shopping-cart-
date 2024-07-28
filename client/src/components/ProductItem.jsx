@@ -83,6 +83,9 @@ const ProductItem = ({ isAuthenticated, product }) => {
             name="rating"
           />
           <Typography variant="body1" gutterBottom>
+            Stock: {product.stock > 0 ? product.stock : "Out of Stock"}
+          </Typography>
+          <Typography variant="body1" gutterBottom>
             Price: ${product.price}
           </Typography>
         </CardContent>

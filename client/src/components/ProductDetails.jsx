@@ -1,22 +1,25 @@
-// src/components/ProductDetails.jsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import {
-  Container,
   Typography,
   Button,
   Card,
   CardContent,
   CardMedia,
   Box,
+  IconButton,
+  TextField,
 } from "@mui/material";
 import StarRatings from "react-star-ratings";
-import dummyImage from "../images/dummy.jpg"; 
+import dummyImage from "../images/dummy.jpg";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
 
-const ProductDetails = ({ isAuthenticated }) => {
+const ProductDetails = ({ isAuthenticated=true }) => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -41,7 +44,7 @@ const ProductDetails = ({ isAuthenticated }) => {
     try {
       await axios.post(
         "http://localhost:8080/api/cart",
-        { productId: product.id },
+        { productId: product.id, quantity },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -52,6 +55,12 @@ const ProductDetails = ({ isAuthenticated }) => {
     } catch (error) {
       console.error("Error adding product to cart:", error);
     }
+  };
+
+  const handleQuantityChange = (change) => {
+    setQuantity((prevQuantity) =>
+      Math.max(1, Math.min(prevQuantity + change, product.stock))
+    );
   };
 
   if (!product) return <div>Loading...</div>;
@@ -79,13 +88,13 @@ const ProductDetails = ({ isAuthenticated }) => {
           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
           backgroundColor: "rgba(255, 255, 255, 0.9)",
           maxWidth: 1200,
-          width: "90%", 
+          width: "90%",
           padding: 2,
         }}
       >
         <CardMedia
           component="img"
-          image={dummyImage} 
+          image={dummyImage}
           alt={product.name}
           sx={{
             objectFit: "contain",
@@ -121,11 +130,41 @@ const ProductDetails = ({ isAuthenticated }) => {
           <Typography variant="body1" gutterBottom>
             <strong>Price:</strong> ${product.price}
           </Typography>
+          <Typography variant="body1" gutterBottom>
+            <strong>Stock:</strong>{" "}
+            {product.stock > 0 ? product.stock : "Out of Stock"}
+          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
+            <IconButton
+              onClick={() => handleQuantityChange(-1)}
+              disabled={quantity <= 1}
+            >
+              <RemoveIcon />
+            </IconButton>
+            <TextField
+              value={quantity}
+              onChange={(e) =>
+                setQuantity(
+                  Math.max(1, Math.min(Number(e.target.value), product.stock))
+                )
+              }
+              type="number"
+              inputProps={{ min: 1, max: product.stock }}
+              sx={{ width: 60, mx: 1 }}
+            />
+            <IconButton
+              onClick={() => handleQuantityChange(1)}
+              disabled={quantity >= product.stock}
+            >
+              <AddIcon />
+            </IconButton>
+          </Box>
           <Button
             variant="contained"
             color="primary"
             onClick={handleAddToCart}
             sx={{ marginTop: 2, borderRadius: 0 }}
+            disabled={product.stock <= 0}
           >
             Add to Cart
           </Button>
