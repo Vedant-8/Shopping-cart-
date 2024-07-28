@@ -46,7 +46,8 @@ const UserDashboard = () => {
     });
 
     const webSocketService = new WebSocketService((message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+      console.log("Received message in callback: ", message); // Verify message reception
+      setMessages((prevMessages) => [...prevMessages, message.message]); // Update state with parsed message content
       setShowNotification(true);
       setTimeout(() => setShowNotification(false), 5000);
     });

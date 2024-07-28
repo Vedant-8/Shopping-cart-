@@ -17,7 +17,8 @@ import {
 } from "@mui/material";
 import { Star } from "@mui/icons-material";
 import reportService from "../services/reportService";
-import authService from "../services/authService"; 
+import authService from "../services/authService";
+import messageService from "../services/messageService";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 
@@ -26,6 +27,7 @@ const AdminDashboard = () => {
   const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedProfile, setEditedProfile] = useState({});
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     // Fetch reports data
@@ -51,11 +53,21 @@ const AdminDashboard = () => {
 
   const handleSaveProfile = async () => {
     try {
-      await authService.updateProfile(editedProfile); 
+      await authService.updateProfile(editedProfile);
       setProfile(editedProfile);
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating profile:", error);
+    }
+  };
+
+  const handleMessageSubmit = async () => {
+    try {
+      await messageService.sendMessage(message);
+      setMessage("");
+      alert("Message sent successfully!");
+    } catch (error) {
+      console.error("Error sending message:", error);
     }
   };
 
@@ -121,7 +133,11 @@ const AdminDashboard = () => {
                   </>
                 ) : (
                   <>
-                    <Typography variant="h5" gutterBottom sx={{ color: "#00274d" }}>
+                    <Typography
+                      variant="h5"
+                      gutterBottom
+                      sx={{ color: "#00274d" }}
+                    >
                       {profile.username}
                     </Typography>
                     <Typography variant="h6" sx={{ color: "#003366" }}>
@@ -130,9 +146,17 @@ const AdminDashboard = () => {
                     <Typography variant="body1" sx={{ color: "#003366" }}>
                       Phone Number: {profile.number}
                     </Typography>
-                    <Box sx={{ display: "flex", alignItems: "center", marginTop: 2 }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginTop: 2,
+                      }}
+                    >
                       <Star sx={{ color: "gold", marginRight: 1 }} />
-                      <Typography variant="body1">Admin Level: {profile.adminLevel}</Typography>
+                      <Typography variant="body1">
+                        Admin Level: {profile.adminLevel}
+                      </Typography>
                     </Box>
                   </>
                 )}
@@ -158,6 +182,45 @@ const AdminDashboard = () => {
                   )}
                 </Box>
               </Box>
+            </Box>
+          </CardContent>
+        </Card>
+
+        <Card
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            borderRadius: 8,
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            padding: 2,
+            width: "100%",
+            marginBottom: 4,
+            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <CardContent>
+            <Typography variant="h5" gutterBottom sx={{ color: "#00274d" }}>
+              Send Custom Sales Message
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <TextField
+                label="Message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                fullWidth
+                multiline
+                rows={4}
+                variant="outlined"
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleMessageSubmit}
+                sx={{ borderRadius: 0 }}
+              >
+                Send Message
+              </Button>
             </Box>
           </CardContent>
         </Card>

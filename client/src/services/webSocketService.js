@@ -15,7 +15,9 @@ class WebSocketService {
     this.stompClient.onConnect = (frame) => {
       console.log("Connected: " + frame);
       this.stompClient.subscribe("/topic/sales", (message) => {
-        onMessageReceived(message.body);
+        console.log("Message received: ", message.body); // Verify message reception
+        const parsedMessage = JSON.parse(message.body);
+        onMessageReceived(parsedMessage);
       });
     };
 

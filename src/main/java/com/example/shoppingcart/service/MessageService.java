@@ -11,6 +11,6 @@ public class MessageService {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     public void sendMessage(String message) {
-        kafkaTemplate.send("sale_topic", message);
+        kafkaTemplate.send("sales_topic", message); 
     }
 }
