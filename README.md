@@ -9,4 +9,4 @@ A shopping cart application
 - Secure user authentication and authorization
 - Admin dashboard for product management, messaging and reporting
 - User interface for browsing and purchasing products
-- Responsive design
+- Responsive and seamless design
