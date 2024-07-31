@@ -2,7 +2,7 @@
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-A shopping cart application
+This application hosts shopping cart!
 
 ## Features
 
