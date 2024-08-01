@@ -15,4 +15,5 @@ public class JwtSecretMakerTest {
         String encodedKey = DatatypeConverter.printHexBinary(key.getEncoded());
         System.out.printf("\nKey = [%s]\n", encodedKey);
     }
+    
 }
