@@ -22,7 +22,7 @@ public class MyUser {
     @Column(nullable = false)
     private String role;
 
-    @Column(nullable = false)
+    @Column
     private String email;
 
     @Column
