@@ -4,7 +4,7 @@
 
 This application hosts shopping cart
 
-## Features
+## Features 
 
 - Secure user authentication and authorization
 - Admin dashboard for product management, messaging and reporting
