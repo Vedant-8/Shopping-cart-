@@ -50,7 +50,3 @@ npm start
 ## Contributions
 
 Feel free to fork this repository and submit pull requests for any improvements 😊.
-
----
-
-This format keeps the details abstract but also provides enough information to showcase the project's robustness and scalability. Just replace the `https://eraser.io/project_link_here` with your actual Eraser.io link and attach your screenshots where indicated.
