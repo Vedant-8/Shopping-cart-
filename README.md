@@ -6,7 +6,7 @@ This application hosts shopping cart.
 
 - **User Authentication and Authorization**: Secure login and registration using spring security and JWT (JSON Web Tokens).
 - **Shopping Cart**: Users can add products to their cart, view their cart, and manage their purchases.
-- **Real-Time Notifications**: Kafka-powered messaging for real-time updates and notifications.
+- **Real-Time Notifications**: Kafka-powered messaging for real-time updates and notifications. 
 - **Responsive UI**: Clean and modern design using **Material-UI** and CSS for a polished user experience.
 
 ## Tech Stack
